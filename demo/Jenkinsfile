@@ -12,6 +12,9 @@ pipeline {
             steps {
                 sh '''
                     echo "Building application..."
+
+                    cd demo
+
                     mvn clean package -Dmaven.test.skip=true
                 '''
             }
@@ -21,6 +24,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Stopping old application..."
+
                     pkill -f 'java -jar' || true
                 '''
             }
@@ -30,6 +34,9 @@ pipeline {
             steps {
                 sh '''
                     echo "Starting application..."
+
+                    cd demo
+
                     nohup java -jar target/*.jar > app.log 2>&1 &
                 '''
             }
