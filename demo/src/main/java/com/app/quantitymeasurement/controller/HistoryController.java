@@ -23,4 +23,8 @@ public class HistoryController {
     public List<History> getHistoryByType(@PathVariable String type) {
         return historyService.getHistoryByType(type);
     }
+	@GetMapping("/pipeline-test")
+	public String pipelineTest() {
+   		return "Pipeline Success";
+	}
 }
