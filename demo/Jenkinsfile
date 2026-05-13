@@ -1,1 +1,48 @@
+pipeline {
+    agent any
 
+    environment {
+        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh '''
+                    echo "Building application..."
+                    mvn clean package -Dmaven.test.skip=true
+                '''
+            }
+        }
+
+        stage('Stop Old Application') {
+            steps {
+                sh '''
+                    echo "Stopping old application..."
+                    pkill -f 'java -jar' || true
+                '''
+            }
+        }
+
+        stage('Deploy Application') {
+            steps {
+                sh '''
+                    echo "Starting application..."
+                    nohup java -jar target/*.jar > app.log 2>&1 &
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
