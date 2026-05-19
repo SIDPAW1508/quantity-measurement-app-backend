@@ -1,9 +1,4 @@
-FROM ubuntu:24.04
-
-ARG DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && \
-    apt-get install -y openjdk-21-jdk
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
