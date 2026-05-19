@@ -11,5 +11,7 @@ public interface UnitRepository extends JpaRepository<Unit, Long> {
 
     // Find ONE unit using symbol (m, cm, kg)
 	Optional<Unit> findBySymbolIgnoreCase(String symbol);
+	Optional<Unit> findBySymbol(String symbol);
+
     List<Unit> findByType(String type);
 }
